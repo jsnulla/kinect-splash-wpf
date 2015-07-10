@@ -1,7 +1,7 @@
-﻿<Window x:Class="kinect_splash_wpf.MainWindow"
+﻿<Window x:Name="kinectSplash" x:Class="kinect_splash_wpf.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Splash Screen by JSNulla" Height="500" Width="1359" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Topmost="True" ResizeMode="NoResize">
+        Title="kinectSplash" Height="500" Width="1359" WindowStartupLocation="Manual" WindowStyle="None" AllowsTransparency="True" Topmost="True" ResizeMode="NoResize" VerticalAlignment="Bottom" MinHeight="500" MaxHeight="500" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
     <Window.Background>
         <SolidColorBrush Opacity="0" Color="White" />
     </Window.Background>

@@ -80,13 +80,12 @@ namespace kinect_splash_wpf
         {
             InitializeComponent();
 
-            this.Loaded += new RoutedEventHandler(AppLoaded);
-
             screenWidth = Convert.ToInt32(SystemParameters.PrimaryScreenWidth);
-            screenHeight= Convert.ToInt32(SystemParameters.PrimaryScreenHeight);
+            screenHeight = Convert.ToInt32(SystemParameters.PrimaryScreenHeight);
 
             this.Width = screenWidth;
 
+            this.Loaded += new RoutedEventHandler(AppLoaded);
             SplashHolder.Width = screenWidth;
         }
 
@@ -95,10 +94,13 @@ namespace kinect_splash_wpf
             ExeDir = appPath;
             SettingsDir = ExeDir + "/Splash Resources";
 
-            this.Opacity = 0;
+            this.Opacity = 1;
 
-            this.Left = 0;
-            this.Top = (screenHeight - this.Height) + (screenHeight * 0.10);
+            WindowStartupLocation = WindowStartupLocation.Manual;
+
+            var desktopWorkingArea = SystemParameters.WorkArea;
+            this.Left = desktopWorkingArea.Right - this.Width;
+            this.Top = desktopWorkingArea.Bottom - this.Height;
 
             timer1.Interval = new TimeSpan(0, 0, 0, 0, 20);
             timer2.Interval = new TimeSpan(0, 0, 0, 0, 100);
@@ -110,7 +112,18 @@ namespace kinect_splash_wpf
             timer2.Start();
 
             CheckSettings();
+            PlaySound();
             //throw new NotImplementedException();
+        }
+
+        private void PlaySound()
+        {
+            string[] sounds = Directory.GetFiles(SettingsDir, "*.wav");
+
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer();
+            Random r = new Random();
+            player.SoundLocation = sounds[r.Next(0, sounds.Length)];
+            player.Play();
         }
 
         protected override void OnClosing(CancelEventArgs e)
