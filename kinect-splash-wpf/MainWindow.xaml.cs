@@ -100,7 +100,7 @@ namespace kinect_splash_wpf
 
             var desktopWorkingArea = SystemParameters.WorkArea;
             this.Left = desktopWorkingArea.Right - this.Width;
-            this.Top = desktopWorkingArea.Bottom - this.Height;
+            this.Top = desktopWorkingArea.Bottom - this.Height + 25;
 
             timer1.Interval = new TimeSpan(0, 0, 0, 0, 20);
             timer2.Interval = new TimeSpan(0, 0, 0, 0, 100);
