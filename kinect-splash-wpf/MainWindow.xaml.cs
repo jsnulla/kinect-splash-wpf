@@ -21,6 +21,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace kinect_splash_wpf
 {
@@ -39,6 +40,7 @@ namespace kinect_splash_wpf
 
         const string ImageDirJPG = "C:\\HTech\\KinectTmpFile\\UserColorMap.jpg";
         const string ImageDirPNG = "C:\\HTech\\KinectTmpFile\\UserColorMap.png";
+        const string ConfigFileName = "ServerConfig.xml";
         string appPath = System.AppDomain.CurrentDomain.BaseDirectory;
 
         string ExeDir = String.Empty;
@@ -97,10 +99,18 @@ namespace kinect_splash_wpf
             this.Opacity = 1;
 
             WindowStartupLocation = WindowStartupLocation.Manual;
+            ReadConfig();
 
             var desktopWorkingArea = SystemParameters.WorkArea;
             this.Left = desktopWorkingArea.Right - this.Width;
-            this.Top = desktopWorkingArea.Bottom - this.Height + 25;
+            try
+            {
+                this.Top = desktopWorkingArea.Bottom - this.Height + ReadConfig();
+            }
+            catch (Exception err)
+            {
+                this.Top = desktopWorkingArea.Bottom - this.Height + 25;
+            }
 
             timer1.Interval = new TimeSpan(0, 0, 0, 0, 20);
             timer2.Interval = new TimeSpan(0, 0, 0, 0, 100);
@@ -114,6 +124,16 @@ namespace kinect_splash_wpf
             CheckSettings();
             PlaySound();
             //throw new NotImplementedException();
+        }
+
+        int ReadConfig()
+        {
+            string configPath = appPath + ConfigFileName;
+
+            XmlDocument Config = new XmlDocument();
+            Config.Load(configPath);
+
+            return int.Parse(Config.DocumentElement["SplashScreen"].ChildNodes[4].InnerText); // Get offset value
         }
 
         private void PlaySound()
